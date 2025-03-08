@@ -33,7 +33,7 @@ function extractFormData() {
         responses: []
     };
 
-    let questions = document.querySelectorAll(".Qr70ae");
+    let questions = document.querySelectorAll(".Qr7Oae");
     let inputs = document.querySelectorAll("input, textarea");
 
     inputs.forEach((input, index) => {
@@ -42,7 +42,8 @@ function extractFormData() {
 
         if (input.type === "radio" || input.type === "checkbox") {
             if (input.checked) {
-                responseValue = input.nextSibling ? input.nextSibling.innerText : "Selected";
+                let label = document.querySelector(`label[for="${input.id}"]`);
+                responseValue = label ? label.innerText : "Selected";
             }
         } else {
             responseValue = input.value;
