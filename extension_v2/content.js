@@ -76,4 +76,5 @@ function autofillForm() {
 window.onload = () => {
     console.log("Window loaded. Running autofillForm...");
     autofillForm();
+    
 };
