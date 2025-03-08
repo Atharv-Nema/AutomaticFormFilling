@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Google Forms Filler",
     "version": "1.0",
-    "description": "Auto-fill and submit Google Forms",
+    "description": "Extract responses from Google Forms before I submit them",
     "permissions": ["storage", "activeTab", "scripting"],
     "host_permissions": ["https://docs.google.com/forms/*"],
     "background": {
