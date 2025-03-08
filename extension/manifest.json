@@ -3,7 +3,7 @@
     "name": "Google Forms Filler",
     "version": "1.0",
     "description": "Extract responses from Google Forms before I submit them",
-    "permissions": ["storage", "activeTab", "scripting"],
+    "permissions": ["storage", "activeTab", "scripting", "downloads"],
     "host_permissions": ["https://docs.google.com/forms/*"],
     "background": {
       "service_worker": "background.js"
