@@ -1,0 +1,9 @@
+MERGE (u:User {id: "123"})
+MERGE (p:Profile {name: "University"})
+MERGE (u)-[:HAS_PROFILE]->(p)
+
+MERGE (crsid:Field {key: "crsid", value: "abc123"})
+MERGE (email:Field {key: "email", value: crsid.value + "@cam.ac.uk"})
+
+MERGE (p)-[:HAS_FIELD]->(crsid)
+MERGE (p)-[:HAS_FIELD]->(email)
