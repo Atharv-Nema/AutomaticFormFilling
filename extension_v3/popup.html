@@ -1,17 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Google Forms Autofill</title>
-    <script src="popup.js" defer></script>
-</head>
-<body>
-    <h2>Autofill Google Forms</h2>
-    <label for="name">Name:</label>
-    <input type="text" id="name"><br>
-
-    <label for="email">Email:</label>
-    <input type="email" id="email"><br>
-
-    <button id="save">Save</button>
-</body>
+<html>
+  <head>
+    <title>Popup</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        width: 400px;
+        height: 200px;
+        font-size: 14px;
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+      }
+      textarea {
+        width: 100%;
+        height: 150px;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+      }
+      button {
+        background-color: #4CAF50;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #3e8e41;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Enter your text</h1>
+    <textarea id="text-input" placeholder="Enter your text here..."></textarea>
+    <button id="save-button">Save</button>
+    <script src="popup.js"></script>
+  </body>
 </html>

@@ -1,10 +1,8 @@
-document.getElementById("save").addEventListener("click", () => {
-    const formData = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-    };
-
-    chrome.storage.local.set({ formData }, () => {
-        alert("Data saved!");
+document.addEventListener("DOMContentLoaded", function () {
+    const saveButton = document.getElementById("save-button");
+    saveButton.addEventListener("click", function () {
+      const textInput = document.getElementById("text-input");
+      const text = textInput.value;
+      chrome.runtime.sendMessage({ action: "saveData", data: text });
     });
-});
+  });
