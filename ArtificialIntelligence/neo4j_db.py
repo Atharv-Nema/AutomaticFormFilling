@@ -21,7 +21,7 @@ class Neo4jDatabase:
 
     def insert_user_profile(self, user_id, profile_name, fields):
         with self.driver.session() as session:
-            session.write_transaction(self._insert_profile, user_id, profile_name, fields)
+            session.execute_write(self._insert_profile, user_id, profile_name, fields)
 
     @staticmethod
     def _insert_profile(tx, user_id, profile_name, fields):
