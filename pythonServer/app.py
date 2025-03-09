@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 from openai import OpenAI
+from flask_cors import CORS
 
 load_dotenv()
 # Load OpenAI API key from environment variable or .env file
@@ -9,6 +10,7 @@ OpenAI.api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI()
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/ask', methods=['POST'])
 def ask_question():

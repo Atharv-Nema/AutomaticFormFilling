@@ -4,7 +4,7 @@
     "version": "1.0",
     "description": "Automatically fills Google Forms with predefined answers.",
     "permissions": ["storage", "activeTab", "scripting"],
-    "host_permissions": ["https://docs.google.com/forms/*"],
+    "host_permissions": ["https://docs.google.com/forms/d/e/*"],
     "background": {
       "service_worker": "background.js"
     },
