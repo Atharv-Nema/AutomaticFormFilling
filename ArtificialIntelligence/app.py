@@ -70,7 +70,7 @@ def autofill():
     Returns a JSON response with the generated autofill answer.
     """
     data = request.get_json()
-    user_id = data.get("user_id")
+    user_id = data.get("user_id", "123")
     question = data.get("question")
     form_questions = data.get("form_questions")
     extra_input = data.get("extra_input", "")
