@@ -90,20 +90,11 @@ class Neo4jDatabase:
             SET f.value = $email
             """, user_id=user_id, email=university_email)
 
-# Example usage:
-if __name__ == "__main__":
-    neo4j_db = Neo4jDatabase()
-    
-    # New data provided by the user
-    new_data = {
-        "name": "John Doe",
-        "email": "johndoe@unknown.com",  # This may be overwritten by CRSid for University
-        "crsid": "jd123",
-        "job_title": "Software Engineer"
-    }
-    
-    # Update for a University profile (which auto-generates the email from CRSid)
-    neo4j_db.update_user_profile("123", "University", new_data)
-    updated_email = neo4j_db.get_field_value("123", "email")
-    print("Updated Email:", updated_email)
-    neo4j_db.close()
+    def get_field_value(self, user_id, field_key):
+        with self.driver.session() as session:
+            result = session.run("""
+                MATCH (u:User {id: $user_id})-[:HAS_PROFILE]->(p)-[:HAS_FIELD]->(f {key: $field_key})
+                RETURN f.value AS value LIMIT 1
+            """, user_id=user_id, field_key=field_key)
+            record = result.single()
+            return record["value"] if record else "No data found"
