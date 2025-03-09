@@ -1,22 +1,16 @@
 import os
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
-from flask_cors import CORS
 from openai import OpenAI
-from neo4j_db import Neo4jDatabase
-from question_interpreter import QuestionInterpreter
-from autofill_retriever import AutofillRetriever
-
+from flask_cors import CORS
 
 load_dotenv()
-
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-OpenAI.api_key = OPENAI_API_KEY
+# Load OpenAI API key from environment variable or .env file
+OpenAI.api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI()
 
 app = Flask(__name__)
 CORS(app)
-
 
 @app.route('/ask', methods=['POST'])
 def ask_question():
@@ -48,37 +42,6 @@ def ask_question():
         print("Answer:", answer)
         return jsonify({"answer": answer})
 
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-
-neo4j_db = Neo4jDatabase()
-interpreter = QuestionInterpreter()
-retriever = AutofillRetriever(neo4j_db, interpreter)
-
-@app.route('/autofill', methods=['POST'])
-def autofill():
-    """
-    Expects JSON payload with:
-      - user_id: string (e.g., "123")
-      - question: the current form question (string)
-      - form_questions: a string combining all form questions for context
-      - extra_input: optional additional context for long-form answers
-    Returns a JSON response with the generated autofill answer.
-    """
-    data = request.get_json()
-    user_id = data.get("user_id")
-    question = data.get("question")
-    form_questions = data.get("form_questions")
-    extra_input = data.get("extra_input", "")
-
-    if not user_id or not question or not form_questions:
-        return jsonify({"error": "Missing required fields: user_id, question, form_questions"}), 400
-
-    try:
-        answer = retriever.get_field_value(user_id, question, form_questions, extra_input)
-        return jsonify({"answer": answer})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
