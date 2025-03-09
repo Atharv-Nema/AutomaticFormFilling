@@ -30,5 +30,4 @@ def process_json(file_path, user_id, profile_name):
     neo4j_db.close()
     print(f"Inserted data from {file_path} for user {user_id} into Neo4j.")
 
-# Example usage
 process_json("form_responses/dummy_form.json", user_id="123", profile_name="University")

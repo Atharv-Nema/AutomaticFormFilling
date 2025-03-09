@@ -14,7 +14,7 @@ class AutofillRetriever:
     def __init__(self, neo4j_db, interpreter):
         self.neo4j_db = neo4j_db
         self.interpreter = interpreter
-        self.client = OpenAI(api_key=os.getenv(OPENAI_API_KEY))  # Load API Key from .env
+        self.client = OpenAI(api_key=os.getenv(OPENAI_API_KEY))
 
     def determine_profile(self, form_questions):
         """
@@ -43,13 +43,11 @@ class AutofillRetriever:
         return response.choices[0].message.content.strip()
 
     def get_field_value(self, user_id, question_text, form_questions, extra_input="", answer_type="short"):
-        # Determine the profile based on form context.
         profile_name = self.determine_profile(form_questions)
         print("Determined Profile:", profile_name)
 
         
 
-        # Get the field key from the question interpreter.
         try:
             field_key = self.interpreter.query(question_text)
         except:

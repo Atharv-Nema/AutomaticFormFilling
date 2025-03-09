@@ -19,6 +19,39 @@ class QuestionInterpreter:
         self.add_question("How old are you?", "age")
         self.add_question("How is your cat", "cat")
         self.add_question("What is your cat", "cat")
+        self.add_question("What is your email?", "email")
+        self.add_question("Please enter email", "email")
+        self.add_question("Email:", "email")
+        self.add_question("crsid@cam.ac.uk, please enter crsid", "crsid")
+        self.add_question("What is your CRSid?", "crsid")
+        self.add_question("What is your name?", "name")
+        self.add_question("name: ", "name")
+        self.add_question("what is your age", "age")
+        self.add_question("How old are you?", "age")
+        self.add_question("How is your cat", "cat")
+        self.add_question("What is your cat", "cat")
+        self.add_question("What is your email?", "email")
+        self.add_question("Please enter email", "email")
+        self.add_question("Email:", "email")
+        self.add_question("crsid@cam.ac.uk, please enter crsid", "crsid")
+        self.add_question("What is your CRSid?", "crsid")
+        self.add_question("What is your name?", "name")
+        self.add_question("name: ", "name")
+        self.add_question("what is your age", "age")
+        self.add_question("How old are you?", "age")
+        self.add_question("How is your cat", "cat")
+        self.add_question("What is your cat", "cat")
+        self.add_question("What is your email?", "email")
+        self.add_question("Please enter email", "email")
+        self.add_question("Email:", "email")
+        self.add_question("crsid@cam.ac.uk, please enter crsid", "crsid")
+        self.add_question("What is your CRSid?", "crsid")
+        self.add_question("What is your name?", "name")
+        self.add_question("name: ", "name")
+        self.add_question("what is your age", "age")
+        self.add_question("How old are you?", "age")
+        self.add_question("How is your cat", "cat")
+        self.add_question("What is your cat", "cat")
 
     def add_question(self, question_text, field_key):
         vector = self.model.encode(question_text)
@@ -33,7 +66,7 @@ class QuestionInterpreter:
         print(f"Query: '{input_question}'")
         print(f"Closest Distance: {distances[0][0]}, Index: {indices[0][0]}")
 
-        if indices[0][0] == -1 or distances[0][0] > self.similarity_threshold:
+        if indices[0][0] == -1:
             print("No suitable match found, returning 'unknown'")
             return "unknown"
 
