@@ -26,7 +26,7 @@ class AutofillRetriever:
 
         {form_questions}
 
-        Respond with one of: 'Work', 'University', or 'Leisure'.
+        Respond with one of: 'Work', 'University', or 'Leisure'. Please only respond with one word.
         """
 
         response = self.client.Completions.create(
