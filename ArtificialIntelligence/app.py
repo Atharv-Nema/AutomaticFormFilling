@@ -6,6 +6,7 @@ from openai import OpenAI
 from neo4j_db import Neo4jDatabase
 from question_interpreter import QuestionInterpreter
 from autofill_retriever import AutofillRetriever
+import json
 
 
 load_dotenv()
@@ -83,6 +84,13 @@ def autofill():
         return jsonify({"answer": answer})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/addDatabase', methods=['POST'])
+def addDatabase():
+    data = request.get_json()
+    print(f"Received data is {data}")
+    # jsonified_data = json.loads(data)
+    neo4j_db.insert_user_profile(0, "Test profile", data)
 
 if __name__ == "__main__":
     app.run(port=8080, debug=True)
