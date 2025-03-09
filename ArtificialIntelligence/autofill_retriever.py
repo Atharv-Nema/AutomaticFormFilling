@@ -28,50 +28,63 @@ class AutofillRetriever:
 
         Respond with one of: 'Work', 'University', or 'Leisure'.
         """
-
-        response = self.client.Completions.create(
+        
+        print("THIS IS THE PROMPT:")
+        print(prompt)
+        print("PROMPT IS OVER!!!")
+        response = self.client.chat.completions.create(
             model="gpt-4-turbo",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.2,
         )
-
+        print("THIS IS MY RESPONSE")
+        print(response)
+        print("RESPONSE IS OVER")
         return response.choices[0].message["content"].strip()
 
-    def get_field_value(self, user_id, question_text, form_questions, extra_input=""):
-        """
-        Retrieves the best answer for a given question. Uses OpenAI for long-form answers.
-        """
-        # Determine the best profile based on the form context
+    def get_field_value(self, user_id, question_text, form_questions, extra_input="", answer_type="short"):
+        # Determine the profile based on form context.
         profile_name = self.determine_profile(form_questions)
+        print("Determined Profile:", profile_name)
 
-        # Get the field key from FAISS
+        # Get the field key from the question interpreter.
         field_key = self.interpreter.query(question_text)
+        print("Field Key:", field_key)
 
-        # Retrieve structured data from Neo4j
-        structured_data = self.neo4j_db.get_field_value(user_id, field_key)
+        # For short-answer types, try to fetch structured data from Neo4j.
+        if answer_type == "short" and field_key in ["email", "name", "crsid", "job_title"]:
+            structured_data = self.neo4j_db.get_field_value(user_id, field_key)
+            print("Structured Data from Neo4j:", structured_data)
+            if structured_data and structured_data != "No data found":
+                return structured_data
 
-        # If the answer is short and structured, return it directly
-        if field_key in ["email", "name", "crsid", "job_title"] and structured_data:
-            return structured_data
+        # For long-answer fields, build a prompt using context.
+        known_data = self.neo4j_db.get_field_value(user_id, field_key)
+        print("Known Data:", known_data)
 
-        # If it's a long-answer field, use OpenAI for generation
         prompt = f"""
         Form Context:
         {form_questions}
 
         User Profile: {profile_name}
-        Known User Data: {structured_data}
+        Known User Data: {known_data}
         Additional Information: {extra_input}
 
         Question: {question_text}
 
         Generate a well-written answer based on the user's profile and additional input.
         """
+        print("Final Prompt for OpenAI:", prompt)
 
-        response = self.client.Completions.create(
-            model="gpt-4-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
-        )
-
-        return response.choices[0].message["content"].strip()
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-4-turbo",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.7,
+            )
+            generated_answer = response.choices[0].message["content"].strip()
+            print("Generated Answer:", generated_answer)
+            return generated_answer
+        except Exception as e:
+            print("Error during OpenAI call:", str(e))
+            return "Error generating answer"
