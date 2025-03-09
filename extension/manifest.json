@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Google Forms Filler",
+    "name": "Google Forms downloads",
     "version": "1.0",
     "description": "Extract responses from Google Forms before I submit them",
     "permissions": ["storage", "activeTab", "scripting", "downloads"],
