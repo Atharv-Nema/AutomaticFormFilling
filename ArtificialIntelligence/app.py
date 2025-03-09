@@ -65,6 +65,7 @@ def autofill():
       - question: the current form question (string)
       - form_questions: a string combining all form questions for context
       - extra_input: optional additional context for long-form answers
+      - question_form: "short" or "long"
     Returns a JSON response with the generated autofill answer.
     """
     data = request.get_json()
@@ -72,12 +73,13 @@ def autofill():
     question = data.get("question")
     form_questions = data.get("form_questions")
     extra_input = data.get("extra_input", "")
+    question_form = data.get("question_form", "short")
 
     if not user_id or not question or not form_questions:
         return jsonify({"error": "Missing required fields: user_id, question, form_questions"}), 400
 
     try:
-        answer = retriever.get_field_value(user_id, question, form_questions, extra_input)
+        answer = retriever.get_field_value(user_id, question, form_questions, extra_input, question_form)
         return jsonify({"answer": answer})
     except Exception as e:
         return jsonify({"error": str(e)}), 500

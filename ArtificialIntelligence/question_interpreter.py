@@ -18,6 +18,7 @@ class QuestionInterpreter:
     def query(self, input_question):
         vector = self.model.encode(input_question)
         _, indices = self.index.search(np.array([vector]), k=1)
+        
         return self.mappings[indices[0][0]]
 
 # Load predefined question mappings
