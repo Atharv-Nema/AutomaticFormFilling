@@ -40,12 +40,14 @@ class AutofillRetriever:
         print("THIS IS MY RESPONSE")
         print(response)
         print("RESPONSE IS OVER")
-        return response.choices[0].message["content"].strip()
+        return response.choices[0].message.content.strip()
 
     def get_field_value(self, user_id, question_text, form_questions, extra_input="", answer_type="short"):
         # Determine the profile based on form context.
         profile_name = self.determine_profile(form_questions)
         print("Determined Profile:", profile_name)
+
+        
 
         # Get the field key from the question interpreter.
         field_key = self.interpreter.query(question_text)
@@ -82,7 +84,7 @@ class AutofillRetriever:
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.7,
             )
-            generated_answer = response.choices[0].message["content"].strip()
+            generated_answer = response.choices[0].message.content.strip()
             print("Generated Answer:", generated_answer)
             return generated_answer
         except Exception as e:
