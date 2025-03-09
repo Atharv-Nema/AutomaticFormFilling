@@ -18,13 +18,15 @@ def ask_question():
     data = request.get_json()
     question = data.get("question")
     context = data.get("context")
+    additional_context = data.get("additional_context", "No additional context")
 
     if not question or not context:
         return jsonify({"error": "Both 'question' and 'context' are required!"}), 400
 
     # Combine context and question for OpenAI prompt
-    prompt = f"Context: {context}\n\nQuestion: {question}\nAnswer:"
+    prompt = f"Context: {context}\n\nAdditional Context: {additional_context} \n\nQuestion: {question}\nAnswer:"
     print("Prompt:", prompt)
+    print("Context: ", context)
     try:
         # Query the OpenAI model for an answer
         completion = client.chat.completions.create(
