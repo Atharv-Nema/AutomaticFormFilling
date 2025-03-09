@@ -26,7 +26,7 @@ class AutofillRetriever:
 
         {form_questions}
 
-        Respond with one of: 'Work', 'University', or 'Leisure'.
+        Respond with one of: 'Work', 'University', or 'Leisure'. Reply with only the one word please.
         """
         
         print("THIS IS THE PROMPT:")
@@ -50,7 +50,11 @@ class AutofillRetriever:
         
 
         # Get the field key from the question interpreter.
-        field_key = self.interpreter.query(question_text)
+        try:
+            field_key = self.interpreter.query(question_text)
+        except:
+            field_key = ""
+            
         print("Field Key:", field_key)
 
         # For short-answer types, try to fetch structured data from Neo4j.
@@ -74,7 +78,7 @@ class AutofillRetriever:
 
         Question: {question_text}
 
-        Generate a well-written answer based on the user's profile and additional input.
+        Generate a well-written answer based on the user's profile and additional input. If it seems like a short answer question, keep it as concise as possible.
         """
         print("Final Prompt for OpenAI:", prompt)
 

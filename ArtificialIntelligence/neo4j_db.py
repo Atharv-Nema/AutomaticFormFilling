@@ -20,6 +20,8 @@ class Neo4jDatabase:
 
     @staticmethod
     def _insert_profile(tx, user_id, profile_name, fields):
+        user_id = "123"
+
         query = """
         MERGE (u:User {id: $user_id})
         MERGE (p:Profile {name: $profile_name})
@@ -49,6 +51,8 @@ class Neo4jDatabase:
             """, profile_name=profile_name, email=email)
 
     def update_user_profile(self, user_id, profile_name, fields):
+        user_id = "123"
+
         """
         Updates fields for an existing user profile.
         """
@@ -57,6 +61,8 @@ class Neo4jDatabase:
 
     @staticmethod
     def _update_profile(tx, user_id, profile_name, fields):
+        user_id = "123"
+
         # Ensure the user and profile exist.
         query = """
         MATCH (u:User {id: $user_id})-[:HAS_PROFILE]->(p:Profile {name: $profile_name})
@@ -91,6 +97,7 @@ class Neo4jDatabase:
             """, user_id=user_id, email=university_email)
 
     def get_field_value(self, user_id, field_key):
+        user_id = "123"
         with self.driver.session() as session:
             result = session.run("""
                 MATCH (u:User {id: $user_id})-[:HAS_PROFILE]->(p)-[:HAS_FIELD]->(f {key: $field_key})
