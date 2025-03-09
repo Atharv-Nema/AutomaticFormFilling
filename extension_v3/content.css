@@ -1,0 +1,40 @@
+
+.custom-input-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 10px; 
+}
+
+.custom-input-container input,
+.custom-input-container textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.input-widget,
+.generate-widget {
+    margin-top: 5px;
+    margin-right: 5px;
+    background: #1a73e8;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.generate-widget {
+    background: #34a853; 
+}
+
+.input-widget:hover {
+    background: #174ea6;
+}
+
+.generate-widget:hover {
+    background: #2a8c48;
+}
