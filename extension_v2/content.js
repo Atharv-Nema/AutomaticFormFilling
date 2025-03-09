@@ -2,10 +2,10 @@ function autofillForm() {
     console.log("Autofill script running...");
 
     const predefinedAnswers = {
-        "Your Name:": "John Doe",
-        "Your Email:": "johndoe@example.com",
+        "Your Name:": "my name is John Doe",
+        "Your Email:": "i think my email is johndoe@example.com",
         "Age:": "25",
-        "Tell me about yourself:": "I'm a software developer.",
+        "Some facts about myself:": "I'm a software developer. I love go and python blah blah blah",
     };
 
     // Step 1: Extract all question texts and store them with their containers
@@ -24,22 +24,34 @@ function autofillForm() {
 
     // Step 2: Find all input fields and match them to questions
     // Note that .whsOnd is the class for input fields
-    document.querySelectorAll("input.whsOnd.zHQkBf").forEach((input) => {
+    document.querySelectorAll("input.whsOnd.zHQkBf").forEach(async (input) => {
         const matchingField = questionMappings.find(field => field.questionContainer.contains(input));
 
         if (matchingField) {
             const questionText = matchingField.questionText;
             console.log(`Checking field: "${questionText}"`);
-
-            if (predefinedAnswers[questionText]) {
-                console.log(`Filling "${questionText}" with "${predefinedAnswers[questionText]}"`);
-                input.value = predefinedAnswers[questionText];
-
+            const contextString = Object.entries(predefinedAnswers)
+                .map(([key, value]) => `${key} ${value}`)
+                .join("\n");
+            const response = await fetch("http://127.0.0.1:5000/ask", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  question: questionText,
+                  context: contextString,
+                })
+              });
+            const data = await response.json();
+            if (data.answer) {
+                console.log(`Filling "${questionText}" with "${data.answer}"`);
+                input.value = data.answer;
                 // Dispatch events so Google Forms registers the change
                 input.dispatchEvent(new Event('input', { bubbles: true }));
                 input.dispatchEvent(new Event('change', { bubbles: true }));
             } else {
-                console.log(`No predefined value for: "${questionText}"`);
+                console.log(`Error: ${data.error}`);
             }
         } else {
             console.warn("Could not find a matching question for input:", input);
@@ -47,22 +59,34 @@ function autofillForm() {
     });
 
     // Handle textarea inputs
-    document.querySelectorAll("textarea.KHxj8b").forEach((textarea) => {
+    document.querySelectorAll("textarea.KHxj8b").forEach(async (textarea) => {
         const matchingField = questionMappings.find(field => field.questionContainer.contains(textarea));
 
         if (matchingField) {
             const questionText = matchingField.questionText;
-            console.log(`Checking textarea field: "${questionText}"`);
-
-            if (predefinedAnswers[questionText]) {
-                console.log(`Filling "${questionText}" with "${predefinedAnswers[questionText]}"`);
-                textarea.value = predefinedAnswers[questionText];
-
+            console.log(`Checking textarea: "${questionText}"`);
+            const contextString = Object.entries(predefinedAnswers)
+                .map(([key, value]) => `${key} ${value}`)
+                .join("\n");
+            const response = await fetch("http://127.0.0.1:5000/ask", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  question: questionText,
+                  context: contextString,
+                })
+              });
+            const data = await response.json();
+            if (data.answer) {
+                console.log(`Filling "${questionText}" with "${data.answer}"`);
+                textarea.value = data.answer;
                 // Dispatch events so Google Forms registers the change
                 textarea.dispatchEvent(new Event('input', { bubbles: true }));
                 textarea.dispatchEvent(new Event('change', { bubbles: true }));
             } else {
-                console.log(`No predefined value for: "${questionText}"`);
+                console.log(`Error: ${data.error}`);
             }
         } else {
             console.warn("Could not find a matching question for textarea:", textarea);
