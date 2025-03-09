@@ -89,8 +89,8 @@ def autofill():
 def addDatabase():
     data = request.get_json()
     print(f"Received data is {data}")
-    # jsonified_data = json.loads(data)
-    neo4j_db.update_user_profile(0, "Test profile", data)
+    jsonified_data = json.loads(data)
+    neo4j_db.update_user_profile(0, "Test profile", jsonified_data)
     return "Accepted"
 
 if __name__ == "__main__":
