@@ -18,7 +18,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            question: "Please convert the data stored in context to a suitable json format. Please do not output anything else, including the ```json and the ``` at the end as it makes string parsing harder",
+            question: "Please convert the data stored in context to a suitable json format. The json should just contain key value pairs, where the values are simple strings. Please do not output anything else, including the ```json and the ``` at the end as it makes string parsing harder",
             context: inputData,
         }),
       });

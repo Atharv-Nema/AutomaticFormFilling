@@ -23,8 +23,3 @@ class QuestionInterpreter:
 
 # Load predefined question mappings
 interpreter = QuestionInterpreter()
-interpreter.add_question("What is your email?", "email")
-interpreter.add_question("Please enter email", "email")
-interpreter.add_question("Email:", "email")
-interpreter.add_question("crsid@cam.ac.uk, please enter crsid", "crsid")
-interpreter.add_question("What is your CRSid?", "crsid")
