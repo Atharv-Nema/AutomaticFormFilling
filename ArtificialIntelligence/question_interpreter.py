@@ -17,6 +17,8 @@ class QuestionInterpreter:
         self.add_question("name: ", "name")
         self.add_question("what is your age", "age")
         self.add_question("How old are you?", "age")
+        self.add_question("How is your cat", "cat")
+        self.add_question("What is your cat", "cat")
 
     def add_question(self, question_text, field_key):
         vector = self.model.encode(question_text)
