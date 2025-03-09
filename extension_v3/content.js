@@ -22,6 +22,9 @@ function addWidgetsToTextFields() {
             questionMappings.push({ questionText, questionContainer });
         }
     });
+    //Generates a string from the question mappings
+    const questionString = questionMappings.map(({ questionText }) => questionText).join("\n");
+    console.log("Context String:", questionString);
     // Short inputs
     document.querySelectorAll("input.whsOnd.zHQkBf").forEach((input) => {
         const matchingField = questionMappings.find((field) => field.questionContainer.contains(input));
@@ -48,12 +51,12 @@ function addWidgetsToTextFields() {
             // Event listener to autofill the field when clicked
             autofillWidget.addEventListener("click", async () => {
                 try {
-                    const response = await fetch("http://127.0.0.1:8080/ask", {
+                    const response = await fetch("http://127.0.0.1:8080/autofill", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             question: questionText,
-                            context: contextString,
+                            form_questions: questionString,
                         }),
                     });
 
@@ -83,13 +86,13 @@ function addWidgetsToTextFields() {
                 const additionalContext = prompt(`Enter additional details for: "${questionText}"`);
                 if (additionalContext) {
                     try {
-                        const response = await fetch("http://127.0.0.1:8080/ask", {
+                        const response = await fetch("http://127.0.0.1:8080/autofill", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
                                 question: questionText,
-                                context: contextString,
-                                additional_context: additionalContext,
+                                form_questions: questionString,
+                                extra_input: additionalContext,
                             }),
                         });
 
@@ -163,12 +166,13 @@ function addWidgetsToTextFields() {
 
             autofillWidget.addEventListener("click", async () => {
                 try {
-                    const response = await fetch("http://127.0.0.1:8080/ask", {
+                    const response = await fetch("http://127.0.0.1:8080/autofill", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             question: questionText,
-                            context: contextString,
+                            form_questions: questionString,
+                            question_form: "long",
                         }),
                     });
 
@@ -197,13 +201,14 @@ function addWidgetsToTextFields() {
                 const additionalContext = prompt(`Enter additional details for: "${questionText}"`);
                 if (additionalContext) {
                     try {
-                        const response = await fetch("http://127.0.0.1:8080/ask", {
+                        const response = await fetch("http://127.0.0.1:8080/autofill", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
                                 question: questionText,
-                                context: contextString,
-                                additional_context: additionalContext,
+                                form_questions: questionString,
+                                question_form: "long",
+                                extra_input: additionalContext,
                             }),
                         });
 
